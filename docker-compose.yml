@@ -1,0 +1,49 @@
+version: "3.8"
+services:
+  db:
+    image: mariadb:10.5
+    environment:
+      MARIADB_DATABASE: "${DB_DATABASE?No database name specified}"
+      MARIADB_USER: "${DB_USER?No database user specified}"
+      MARIADB_PASSWORD: "${DB_PASSWORD?No database password specified}"
+      MARIADB_RANDOM_ROOT_PASSWORD: 'yes'
+    volumes:
+      - 'tms-db:/var/lib/mysql'
+    networks:
+      - db
+  backend-core:
+    image: tmselte/php:7.4
+    command: 'bash -c "composer install --prefer-dist && apache2-foreground"'
+    volumes:
+      - "${BACKEND_CORE_PATH:-../backend-core}:/var/www/html/backend-core"
+    working_dir: /var/www/html/backend-core
+    networks:
+      - default
+      - db
+  phpmyadmin:
+    image: phpmyadmin:apache
+    environment:
+      PMA_USER: "${DB_USER?No database user specified}"
+      PMA_PASSWORD: "${DB_PASSWORD?No database password specified}"
+    depends_on:
+      - db
+    networks:
+      - default
+      - db
+    ports:
+      - '127.0.0.1:8080:80'
+  frontend:
+    image: node:18
+    command: 'bash -c "npm install && REACT_DEV_PROXY=http://backend-core npm start"'
+    ports:
+      - 3000:3000
+    working_dir: /app
+    volumes:
+      - "${FRONTEND_PATH:-../frontend-react}:/app"
+    networks:
+      - default
+networks:
+  db:
+    internal: true
+volumes:
+  tms-db:

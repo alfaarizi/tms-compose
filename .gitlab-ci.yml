@@ -1,0 +1,13 @@
+stages:
+  - build
+
+build:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  script:
+    - echo 'DB_DATABASE=tms' > .env
+    - echo 'DB_USER=tms-user' >> .env
+    - echo 'DB_PASSWORD=tms' >> .env
+    - docker compose build
