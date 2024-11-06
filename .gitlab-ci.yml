@@ -1,13 +1,24 @@
 stages:
   - build
 
-build:
+build-development:
   image: docker:latest
   stage: build
   services:
     - docker:dind
   script:
-    - echo 'DB_DATABASE=tms' > .env
-    - echo 'DB_USER=tms-user' >> .env
-    - echo 'DB_PASSWORD=tms' >> .env
-    - docker compose build
+    - echo 'DB_DATABASE=tms' > development/.env
+    - echo 'DB_USER=tms-user' >> development/.env
+    - echo 'DB_PASSWORD=tms' >> development/.env
+    - docker compose -f development/docker-compose.yml build
+
+build-production:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  script:
+    - echo 'DB_DATABASE=tms' > production/.env
+    - echo 'DB_USER=tms-user' >> production/.env
+    - echo 'DB_PASSWORD=tms' >> production/.env
+    - docker compose -f production/docker-compose.yml build

@@ -1,4 +1,4 @@
-version: "3.8"
+name: tms-dev
 services:
   db:
     image: mariadb:10.5
@@ -7,31 +7,45 @@ services:
       MARIADB_USER: "${DB_USER?No database user specified}"
       MARIADB_PASSWORD: "${DB_PASSWORD?No database password specified}"
       MARIADB_RANDOM_ROOT_PASSWORD: 'yes'
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
+      start_period: 30s
+      start_interval: 5s
+      interval: 1m
+      timeout: 5s
+      retries: 3
     volumes:
-      - 'tms-db:/var/lib/mysql'
+      - 'db:/var/lib/mysql'
     networks:
       - db
+
   backend-core:
     image: tmselte/php:7.4
     command: 'bash -c "composer install --prefer-dist && apache2-foreground"'
     volumes:
-      - "${BACKEND_CORE_PATH:-../backend-core}:/var/www/html/backend-core"
+      - "${BACKEND_CORE_PATH:-../../backend-core}:/var/www/html/backend-core"
     working_dir: /var/www/html/backend-core
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - default
       - db
+
   phpmyadmin:
     image: phpmyadmin:apache
     environment:
       PMA_USER: "${DB_USER?No database user specified}"
       PMA_PASSWORD: "${DB_PASSWORD?No database password specified}"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - default
       - db
     ports:
       - '127.0.0.1:8080:80'
+
   frontend:
     image: node:18
     command: 'bash -c "npm install && REACT_DEV_PROXY=http://backend-core npm start"'
@@ -39,11 +53,13 @@ services:
       - 3000:3000
     working_dir: /app
     volumes:
-      - "${FRONTEND_PATH:-../frontend-react}:/app"
+      - "${FRONTEND_PATH:-../../frontend-react}:/app"
     networks:
       - default
+
 networks:
   db:
     internal: true
+
 volumes:
-  tms-db:
+  db:
