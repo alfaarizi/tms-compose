@@ -1,0 +1,67 @@
+name: tms
+services:
+  db:
+    image: mariadb:10.5
+    environment:
+      MARIADB_DATABASE: "${DB_DATABASE?No database name specified}"
+      MARIADB_USER: "${DB_USER?No database user specified}"
+      MARIADB_PASSWORD: "${DB_PASSWORD?No database password specified}"
+      MARIADB_RANDOM_ROOT_PASSWORD: 'yes'
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
+      start_period: 30s
+      start_interval: 5s
+      interval: 1m
+      timeout: 5s
+      retries: 3
+    volumes:
+      - 'db:/var/lib/mysql'
+    networks:
+      - db
+
+  backend-core:
+    image: tmselte/backend-core
+    volumes:
+      - './config.yml:/var/www/html/backend-core/config.yml:ro'  # Bind mount the config file as read-only
+      - './appdata:/var/www/html/backend-core/appdata'           # Bind mount the appdata directory
+    working_dir: /var/www/html/backend-core
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+      - db
+
+  phpmyadmin:
+    image: phpmyadmin:apache
+    environment:
+      PMA_USER: "${DB_USER?No database user specified}"
+      PMA_PASSWORD: "${DB_PASSWORD?No database password specified}"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+      - db
+    ports:
+      - '127.0.0.1:8080:80'
+
+  frontend:
+    image: tmselte/frontend-react
+    environment:
+      REACT_APP_LOGIN_METHOD: ${REACT_APP_LOGIN_METHOD:-MOCK}
+      REACT_APP_THEME: ${REACT_APP_THEME:-dark}
+      REACT_APP_GOOGLE_ANALYTICS_ID: ${REACT_APP_GOOGLE_ANALYTICS_ID:-}
+    depends_on:
+      - backend-core
+    ports:
+      - '3000:80'
+    networks:
+      - default
+
+networks:
+  db:
+    internal: true
+
+volumes:
+  db:
