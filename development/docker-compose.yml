@@ -47,7 +47,7 @@ services:
       - '127.0.0.1:8080:80'
 
   frontend:
-    image: node:18
+    image: node:22
     command: 'bash -c "npm install && REACT_DEV_PROXY=http://backend-core npm start"'
     ports:
       - 3000:3000
