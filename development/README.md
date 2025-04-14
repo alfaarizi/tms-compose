@@ -11,7 +11,7 @@ INSTALLATION
 3. Configure the backend core and frontend projects as necessary. When configuring the backend core, you should set `<db host name>` to `db`. You shouldn’t change the frontend variables `REACT_APP_API_BASEURL` and `REACT_DEV_PROXY` (they define how to access the backend, which won’t change from user to user when using Docker Compose).
 4. Create a file named `.env` in this directory containing configuration. See [Configuration](#Configuration) below for details.
 5. Start the project by issuing `docker compose up` in this directory (`docker-compose up` if you have Compose V1).
-6. Migrate and initialize the database as instructed by the backend core documentation. Whenever the documentation asks you need to run `./yii <parameters>` in the backend core directory, run `docker compose exec backend-core ./yii <parameters>` in this directory instead.
+6. Migrate and initialize the database as instructed by the backend core documentation. Whenever the documentation asks you to run `./yii <parameters>` in the backend core directory, run `docker compose exec --user www-data backend-core ./yii <parameters>` in this directory instead.
 7. Happy hacking!
 
 ### Configuration

@@ -12,7 +12,7 @@ INSTALLATION
 4. Add the necceseary frontend runtime configuration to the `.env` file. See [Configuration](#Configuration) below for supported variables.
 5. Start the project by issuing `docker compose up` in this directory (`docker-compose up` if you have Compose V1).
 6. The database migration will be performed automatically, but you still need to initialize the database as instructed by the [backend core documentation](https://gitlab.com/tms-elte/backend-core/-/blob/develop/README.md#database-migration). Run the following command:  
-   `docker compose exec backend-core ./yii setup/init`
+   `docker compose exec --user www-data backend-core ./yii setup/init`
 
 ### Configuration
 
