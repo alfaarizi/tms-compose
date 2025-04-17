@@ -49,9 +49,8 @@ services:
   frontend:
     image: tmselte/frontend-react
     environment:
-      REACT_APP_LOGIN_METHOD: ${REACT_APP_LOGIN_METHOD:-MOCK}
-      REACT_APP_THEME: ${REACT_APP_THEME:-dark}
-      REACT_APP_GOOGLE_ANALYTICS_ID: ${REACT_APP_GOOGLE_ANALYTICS_ID:-}
+      VITE_LOGIN_METHOD: ${VITE_LOGIN_METHOD:-MOCK}
+      VITE_THEME: ${VITE_THEME:-dark}
     depends_on:
       - backend-core
     ports:
