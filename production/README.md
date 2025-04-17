@@ -18,22 +18,20 @@ INSTALLATION
 
 The following configuration variables are available. Variables without default values should always be specified in the `.env` files, variables that have default values need to be defined only if the default values are inappropriate.
 
-| Name                                    | Default value       | Description                                                                                                                                               |
-|:----------------------------------------|:--------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `DB_DATABASE`                           | (no default)        | Name of the development database, must be the same as `<database name>` in the backend configuration. Used only if no database exists yet.                |
-| `DB_USER`                               | (no default)        | Name of the database user, must be the same as `<db user>` in the backend configuration. Used if no database exists yet and in phpMyAdmin.                |
-| `DB_PASSWORD`                           | (no default)        | Password of the of the database user, must be the same as `<db password>` in the backend configuration. Used if no database exists yet and in phpMyAdmin. |
-| `REACT_APP_LOGIN_METHOD`                | `MOCK`              | Used login method. Possible values: `LDAP`, `MOCK`                                                                                                        |
-| `REACT_APP_THEME`                       | `dark`              | UI theme for the frontend.  Possible values: `dark`, `blue`.                                                                                              |
-| `REACT_APP_GOOGLE_ANALYTICS_ID`         | (empty string)      | Google Analytics (GA4) tracking ID for website monitoring. If empty or undefined, tracking is disabled.                                                   |
+| Name                            | Default value       | Description                                                                                                                                               |
+|:--------------------------------|:--------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `DB_DATABASE`                   | (no default)        | Name of the development database, must be the same as `<database name>` in the backend configuration. Used only if no database exists yet.                |
+| `DB_USER`                       | (no default)        | Name of the database user, must be the same as `<db user>` in the backend configuration. Used if no database exists yet and in phpMyAdmin.                |
+| `DB_PASSWORD`                   | (no default)        | Password of the of the database user, must be the same as `<db password>` in the backend configuration. Used if no database exists yet and in phpMyAdmin. |
+| `VITE_LOGIN_METHOD`             | `MOCK`              | Used login method. Possible values: `LDAP`, `MOCK`                                                                                                        |
+| `VITE_THEME`                    | `dark`              | UI theme for the frontend.  Possible values: `dark`, `blue`.                                                                                              |
+| `VITE_GOOGLE_ANALYTICS_ID` | (empty string)      | Google Analytics (GA4) tracking ID for website monitoring. If empty or undefined, tracking is disabled.                                                   |
 
 An `.env` file could look like this:
 ```bash
 DB_DATABASE=tms
 DB_USER=tms-user
 DB_PASSWORD=tms-pwd
-REACT_APP_LOGIN_METHOD=LDAP
-REACT_APP_THEME=blue
 ```
 
 ### Persistent storage

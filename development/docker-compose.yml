@@ -48,7 +48,7 @@ services:
 
   frontend:
     image: node:22
-    command: 'bash -c "npm install && REACT_DEV_PROXY=http://backend-core npm start"'
+    command: 'bash -c "npm install && VITE_DEV_PROXY=http://backend-core/backend-core/web npm run dev"'
     ports:
       - 3000:3000
     working_dir: /app
