@@ -18,13 +18,14 @@ INSTALLATION
 
 The following configuration variables are available. Variables without default values should always be specified in the `.env` files, variables that have default values need to be defined only if the default values are inappropriate.
 
-| Name                | Default value       | Description                                                                                                                                               |
-|:--------------------|:--------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Name                | Default value          | Description                                                                                                                                               |
+|:--------------------|:-----------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `BACKEND_CORE_PATH` | `../../backend-core`   | Path to the checked-out backend core project. If relative, it’s relative to the directory containing the `docker-compose.yml` file.                       |
 | `FRONTEND_PATH`     | `../../frontend-react` | Path to the checked-out frontend project. If relative, it’s relative to the directory containing the `docker-compose.yml` file.                           |
-| `DB_DATABASE`       | (no default)        | Name of the development database, must be the same as `<database name>` in the backend configuration. Used only if no database exists yet.                |
-| `DB_USER`           | (no default)        | Name of the database user, must be the same as `<db user>` in the backend configuration. Used if no database exists yet and in phpMyAdmin.                |
-| `DB_PASSWORD`       | (no default)        | Password of the of the database user, must be the same as `<db password>` in the backend configuration. Used if no database exists yet and in phpMyAdmin. |
+| `DATA_PATH`         | `appdata`              | Path to the temporary storage. If relative, it’s relative to the location of the `backend-core` project's root.                                           |
+| `DB_DATABASE`       | (no default)           | Name of the development database, must be the same as `<database name>` in the backend configuration. Used only if no database exists yet.                |
+| `DB_USER`           | (no default)           | Name of the database user, must be the same as `<db user>` in the backend configuration. Used if no database exists yet and in phpMyAdmin.                |
+| `DB_PASSWORD`       | (no default)           | Password of the of the database user, must be the same as `<db password>` in the backend configuration. Used if no database exists yet and in phpMyAdmin. |
 
 An `.env` file could look like this:
 ```bash

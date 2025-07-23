@@ -31,6 +31,15 @@ services:
     networks:
       - default
       - db
+    post_start:
+      - command: ["chmod", "-R", 'ugo+rw', "${DATA_PATH:-appdata}"]
+        user: root
+      - command: ["chmod", "-R", 'ugo+rw', "tests/_output"]
+        user: root
+      - command: ["chmod", "-R", 'ugo+rw', "runtime"]
+        user: root
+      - command: ["chmod", "-R", 'ugo+rw', "web/assets"]
+        user: root
 
   phpmyadmin:
     image: phpmyadmin:apache
