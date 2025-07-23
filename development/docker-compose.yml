@@ -24,6 +24,7 @@ services:
     command: 'bash -c "composer install --prefer-dist && apache2-foreground"'
     volumes:
       - "${BACKEND_CORE_PATH:-../../backend-core}:/var/www/html/backend-core"
+      - ./docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     working_dir: /var/www/html/backend-core
     depends_on:
       db:
@@ -31,6 +32,8 @@ services:
     networks:
       - default
       - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     post_start:
       - command: ["chmod", "-R", 'ugo+rw', "${DATA_PATH:-appdata}"]
         user: root

@@ -35,6 +35,6 @@ DB_PASSWORD=tms-pwd
 ```
 
 ### Services
-The following services are exposed (exposing means that you need to use the Docker host’s IP address or host name to access them):
+The following services are exposed (exposing means that you need to use the Docker host's IP address or host name to access them):
 - The frontend at `0.0.0.0:3000` (i.e. on port 3000 from the local computer and any other computer on the same network)
 - [phpMyAdmin](https://www.phpmyadmin.net/) at `127.0.0.1:8080` (i.e. on port 8080 from the local computer only), configured to automatically log in to the database without asking for password
